@@ -1,4 +1,7 @@
 require "google_drive"
+require 'google/apis/sheets_v4'
+require 'googleauth'
+# https://www.rubydoc.info/gems/google_drive/2.1.1/GoogleDrive/Worksheet
 
 class Sheet
 
@@ -6,27 +9,19 @@ class Sheet
     @session = GoogleDrive::Session.from_service_account_key("creds.json")
     @spreadsheet = @session.spreadsheet_by_title("AlgorithmicComplexity") 
     @first_sheet = @spreadsheet.worksheets.first
-    # clear_sheet
-    setup_range
+    @service = Google::Apis::SheetsV4::SheetsService.new
+    @cols = [ ['Input','Time (seconds)']] 
   end
 
-  attr_reader :session, :spreadsheet, :first_sheet
+  attr_reader :session, :spreadsheet, :first_sheet, :service
 
   def add_to_sheet(values)
-    values_range = Google::Apis::SheetsV4::ValueRange.new(values: values)
-    result = @first_sheet.append(@spreadsheet.id, @range, values_range , value_input_option:'RAW')
-    
-  end
-
-  private
-
-  def clear_sheet
-
-  end
-
-  def setup_range
-    @cols = [ ['Input','Time (seconds)']] 
-    @range =  ['A1:B1']  
+    vals = values.each { |array|
+      @cols << array
+    }
+    p vals
+    @first_sheet.insert_rows(1, @cols)
+    @first_sheet.save
   end
 
 end

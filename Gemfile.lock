@@ -80,6 +80,7 @@ PLATFORMS
 
 DEPENDENCIES
   google_drive
+  googleauth
 
 BUNDLED WITH
    2.2.26
