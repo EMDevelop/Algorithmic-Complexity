@@ -12,7 +12,7 @@ class Sheet
     @second_sheet = @spreadsheet.worksheets[1]
     @third_sheet = @spreadsheet.worksheets[1]
     @service = Google::Apis::SheetsV4::SheetsService.new
-    @cols = [ ['Input','First (seconds)', 'Second (seconds)', 'Third (seconds)']] 
+    @cols = [ ['First (seconds)', 'Second (seconds)', 'Third (seconds)', 'Input', 'Average Time']] 
   end
 
   attr_reader :session, :spreadsheet, :first_sheet, :service
